@@ -1,16 +1,20 @@
-# This is a sample Python script.
+from PIL import Image
+import os
+import numpy as np
+import cv2
+import matplotlib.pyplot as plt
+import json
+from sklearn.linear_model import LogisticRegression
 
-# Press Maj+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+from ColorsModel import ColorsModel
+from ColorsData import ColorsData
+
+ex_colors_model = ColorsModel(model=LogisticRegression())
+data_class = ColorsData()
+
+ex_colors_model.fit_predict(data=data_class.get_data(),
+                            cat_names=data_class.cat_names)
+ex_colors_model.split_data(data_class.get_data())
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
 
-
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
