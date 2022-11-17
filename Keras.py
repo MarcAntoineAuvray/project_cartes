@@ -35,9 +35,9 @@ def data_augmentation(image_file,
         i += 1
         if i > number_photos:
             break
-
-for cat in [0,1]:
-    for image_file in os.listdir(files_path+cat_paths[cat]):
-        if image_file[-4:] != ".png" and image_file !=keras_photos_path[:-1]:
-            data_augmentation(image_file=image_file, cat=cat)
+def lets_go():
+    for cat in [0,1]:
+        for image_file in os.listdir(files_path+cat_paths[cat]):
+            if image_file[-4:] != ".png" and image_file !=keras_photos_path[:-1]:
+                data_augmentation(image_file=image_file, cat=cat)
 

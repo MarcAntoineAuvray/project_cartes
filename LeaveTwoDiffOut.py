@@ -9,8 +9,10 @@ class LeaveTwoDiffOut():
     def __init__(self, model, cat_names=[0,1]):
         self.model = model
         self.cat_names = cat_names
+        self.dict = {}
 
-    def split(self, data):
+    def split(self, colors_data):
+        data = colors_data
         X, y = data
         leave_p_out = sklearn.model_selection.LeavePOut(p=2)
         leave_p_out.get_n_splits(X)
@@ -25,12 +27,14 @@ class LeaveTwoDiffOut():
                         splits[i]["X_test"] = np.array(X)[test_index]
                         splits[i]["y_train"] = np.array(y)[train_index]
                         splits[i]["y_test"] = np.array(y)[test_index]
-                        self.model.fit(data=(splits[i]["X_train"], splits[i]["y_train"]))
+                        self.model.fit(colors_data=(splits[i]["X_train"], splits[i]["y_train"]))
                         splits[i]["y_test_pred"]=self.model.predict(splits[i]["X_test"] )
                         i=i+1
-        return splits
+        self.dict = splits
+        return self.dict
 
-    def pie(self, data):
+    def pie(self, colors_data):
+        data = colors_data
         splits=self.split(data)
         true=0
         false=0

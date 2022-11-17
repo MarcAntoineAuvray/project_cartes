@@ -6,7 +6,7 @@ import statistics as stat
 
 class ColorsData:
     def __init__(self,
-                 files_path="C:/Users/mauvray/PycharmProjects/cartes/",
+                 files_path="C:/Users/mauvray/PycharmProjects/cartes_/project_cartes/",
                  cat_paths=["images/Anciennes_cartes/","images/Nouvelles_cartes/"],
                  data_file_name="data.pickle",
                  cat_names=["old_cards", "new_cards"]):
@@ -33,31 +33,36 @@ class ColorsData:
         y = self.cat_paths.index(one_path)
         return X, y
 
-    def add_image_to_data(self, image_file, one_path, update_all=False):
+    def add_image_to_data(self, image_file, one_path):
         X, y = self.data_X_y(image_file, one_path)
         self.data.append([X, y])
         return self.data
 
-    def get_data(self, update_data=False):
+    def get_data(self, update_data=False, updated_data_file_name="data.pickle"):
         if update_data:
             self.data = []
             for i in [0, 1]:
                 for file in [file_ for file_ in os.listdir(self.cat_paths[i]) if file_[-4:] != ".png"]:
-                    self.add_image_to_data(file, self.cat_paths[i])
-            with open(self.data_file_name, 'wb') as f:
+                    self.add_image_to_data(image_file=file, one_path=self.cat_paths[i])
+            with open(updated_data_file_name, 'wb') as f:
                 pickle.dump(self.data, f)
             X = [row for row in np.transpose(self.data)[0]]
             y = list(np.transpose(self.data)[1])
             return X, y
         else:
-            with open("data.pickle", "rb") as openfile:
+            with open(self.data_file_name, "rb") as openfile:
                 self.data = pickle.load(openfile)
             X = [row for row in np.transpose(self.data)[0]]
             y = list(np.transpose(self.data)[1])
             return X, y
+
 if __name__ == "__main__":
     data_ = ColorsData()
-    for i in [0, 1]:
-        for file in [file_ for file_ in os.listdir(data_.cat_paths[i]) if file_[-4:] != ".png"]:
-            data_.add_image_to_data([file], data_.cat_paths[i])
-    print(data_.read_data())
+    # for i in [0, 1]:
+    #     for file in [file_ for file_ in os.listdir(data_.cat_paths[i]) if file_[-4:] != ".png"]:
+    #         data_.add_image_to_data(file, data_.cat_paths[i])
+    print(data_.get_data())
+
+    # c__ = ColorsData(cat_paths=["images/Anciennes_cartes/Keras_photos/",
+    #                             "images/Nouvelles_cartes/Keras_photos/"]).get_data(update_data=True,
+    #                                                                                updated_data_file_name="new_data.pickle")
