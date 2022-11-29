@@ -12,22 +12,21 @@ class ColorsModel:
         self.cat_names=new_cat_names
         return self.cat_names
 
-    def fit(self, colors_data):
-        data = colors_data
-        X_train, y_train = data
+    def fit(self, data, target):
+        X_train, y_train = (data, target)
         self.model.fit(X_train, y_train)
         return self.model
 
-    def predict(self, X):
+    def predict(self, data):
+        X=data
         if len(np.shape(X)) == 1:
             X = [X]
         y_pred = self.model.predict(X)
         return y_pred
 
-    def fit_predict(self, colors_data, new_cat_names=None):
-        data = colors_data
-        self.fit(data)
-        X, y = data
+    def fit_predict(self, data, target, new_cat_names=None):
+        self.fit(data=data, target=target)
+        X, y = (data, target)
         y_pred = self.predict(X)
         if new_cat_names :
             self.add_new_cat_names(new_cat_names)

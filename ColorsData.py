@@ -16,6 +16,7 @@ class ColorsData:
         self.data_file_name = data_file_name
         self.cat_names = cat_names
         self.data = []
+        self.target = []
 
     def data_X(self, image_file, path):
         img = Image.open(path + image_file)
@@ -34,34 +35,45 @@ class ColorsData:
         return X, y
 
     def add_image_to_data(self, image_file, one_path):
-        X, y = self.data_X_y(image_file, one_path)
-        self.data.append([X, y])
-        return self.data
+        X = self.data
+        y = self.target
+        new_X, new_y = self.data_X_y(image_file, one_path)
+        X.append(new_X)
+        y.append(new_y)
+        self.data = X
+        self.target = y
+        return self.data, self.target
 
-    def get_data(self, update_data=False, updated_data_file_name="data.pickle"):
-        if update_data:
+    def get_data_and_target(self, update=False, updated_file_name="data.pickle"):
+        if update:
             self.data = []
+            self.target = []
             for i in [0, 1]:
-                for file in [file_ for file_ in os.listdir(self.cat_paths[i]) if file_[-4:] != ".png"]:
+                for file in [file_ for file_ in os.listdir(self.cat_paths[i]) if file_[-4:] != ".png" and file_ != "Keras_photos"]:
                     self.add_image_to_data(image_file=file, one_path=self.cat_paths[i])
-            with open(updated_data_file_name, 'wb') as f:
-                pickle.dump(self.data, f)
-            X = [row for row in np.transpose(self.data)[0]]
-            y = list(np.transpose(self.data)[1])
-            return X, y
+            with open(updated_file_name, 'wb') as f:
+                pickle.dump((self.data, self.target), f)
+
+            X = self.data
+            y = list(self.target)
+            self.data = X
+            self.target = y
+            return self.data, self.target
         else:
             with open(self.data_file_name, "rb") as openfile:
-                self.data = pickle.load(openfile)
-            X = [row for row in np.transpose(self.data)[0]]
-            y = list(np.transpose(self.data)[1])
-            return X, y
+                self.data, self.target = pickle.load(openfile)
+            X = self.data
+            y = list(self.target)
+            self.data = X
+            self.target = y
+            return self.data, self.target
 
 if __name__ == "__main__":
     data_ = ColorsData()
     # for i in [0, 1]:
     #     for file in [file_ for file_ in os.listdir(data_.cat_paths[i]) if file_[-4:] != ".png"]:
     #         data_.add_image_to_data(file, data_.cat_paths[i])
-    print(data_.get_data())
+    print(data_.get_data_and_target())
 
     # c__ = ColorsData(cat_paths=["images/Anciennes_cartes/Keras_photos/",
     #                             "images/Nouvelles_cartes/Keras_photos/"]).get_data(update_data=True,

@@ -22,7 +22,7 @@ class ArrayData:
         self.data=[]
         self.new_sizes=new_sizes
 
-    def data_(self):
+    def get_data(self):
         X = []
         y = []
         for i in [0, 1]:
@@ -30,11 +30,14 @@ class ArrayData:
                          file_[-4:] != ".png" and file_ != "Keras_photos"]:
                 X.append(asarray(Image.open(self.files_path + self.cat_paths[i] + file).resize(size=self.new_sizes)) / 255)
                 y.append(i)
-        return X, y
+
+        self.data = X,y
+        return self.data
 
 
 if __name__ == "__main__":
     arr_=ArrayData(cat_paths=["images/Anciennes_cartes/Keras_photos/","images/Nouvelles_cartes/Keras_photos/"])
     from CNNModel import CNNModel
     cnn_=CNNModel()
-    cnn_.fit(arr_.data_())
+    arr_.get_data()
+    cnn_.fit(arr_.data)
