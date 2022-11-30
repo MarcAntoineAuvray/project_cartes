@@ -47,5 +47,8 @@ print("Nombre total de modeles differents :",
       len(df))
 
 
+# 30 11 2022
+# 17 : 26
+
 
 
