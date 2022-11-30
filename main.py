@@ -48,7 +48,8 @@ print("Nombre total de modeles differents :",
 
 
 # 30 11 2022
-# 17 : 26
+# 17 : 28
+# ajout du notebook
 
 
 
