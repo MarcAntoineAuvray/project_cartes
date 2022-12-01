@@ -47,8 +47,8 @@ print("Nombre total de modeles differents :",
       len(df))
 
 
-# 30 11 2022
-# 17 : 28
+# 01 12 2022
+# 10 : 48
 # ajout du notebook
 
 
