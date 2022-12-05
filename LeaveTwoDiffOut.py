@@ -6,11 +6,11 @@ import matplotlib.pyplot as plt
 
 class LeaveTwoDiffOut():
 
-    def __init__(self, model, cat_names=[0,1]):
+    def __init__(self, model, data, target, cat_names=[0, 1]):
         self.model = model
         self.cat_names = cat_names
-        self.data = []
-        self.target = []
+        self.data = data
+        self.target = target
         self.splits = {}
 
     def split(self):

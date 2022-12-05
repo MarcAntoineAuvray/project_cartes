@@ -31,7 +31,7 @@ class ArrayData:
                 X.append(asarray(Image.open(self.files_path + self.cat_paths[i] + file).resize(size=self.new_sizes)) / 255)
                 y.append(i)
 
-        self.data = X,y
+        self.data = X, y
         return self.data
 
 

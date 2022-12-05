@@ -18,7 +18,7 @@ class ColorsData:
         self.data = []
         self.target = []
 
-    def data_X(self, image_file, path):
+    def get_one_data(self, image_file, path):
         img = Image.open(path + image_file)
         img.convert('RGB')
         list_lists = []
@@ -29,15 +29,15 @@ class ColorsData:
         X = [stat.mean(list_) for list_ in np.array(list_lists).transpose()]
         return X
 
-    def data_X_y(self, image_file, one_path):
-        X = self.data_X(image_file, path=self.files_path+one_path)
+    def get_one_data_and_target(self, image_file, one_path):
+        X = self.get_one_data(image_file, path=self.files_path+one_path)
         y = self.cat_paths.index(one_path)
         return X, y
 
-    def add_image_to_data(self, image_file, one_path):
+    def add_image(self, image_file, one_path):
         X = self.data
         y = self.target
-        new_X, new_y = self.data_X_y(image_file, one_path)
+        new_X, new_y = self.get_one_data_and_target(image_file, one_path)
         X.append(new_X)
         y.append(new_y)
         self.data = X
@@ -48,10 +48,11 @@ class ColorsData:
         if update:
             self.data = []
             self.target = []
+            self.data_file_name = updated_file_name
             for i in [0, 1]:
                 for file in [file_ for file_ in os.listdir(self.cat_paths[i]) if file_[-4:] != ".png" and file_ != "Keras_photos"]:
-                    self.add_image_to_data(image_file=file, one_path=self.cat_paths[i])
-            with open(updated_file_name, 'wb') as f:
+                    self.add_image(image_file=file, one_path=self.cat_paths[i])
+            with open(self.data_file_name, 'wb') as f:
                 pickle.dump((self.data, self.target), f)
 
             X = self.data
@@ -72,7 +73,7 @@ if __name__ == "__main__":
     data_ = ColorsData()
     # for i in [0, 1]:
     #     for file in [file_ for file_ in os.listdir(data_.cat_paths[i]) if file_[-4:] != ".png"]:
-    #         data_.add_image_to_data(file, data_.cat_paths[i])
+    #         data_.add_image(file, data_.cat_paths[i])
     print(data_.get_data_and_target())
 
     # c__ = ColorsData(cat_paths=["images/Anciennes_cartes/Keras_photos/",

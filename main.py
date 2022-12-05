@@ -19,9 +19,9 @@ import pandas as pd
 data_class = ColorsData()
 data_class.get_data_and_target()
 
-l2o = LeaveTwoDiffOut(model=ColorsModel(model=LogisticRegression()))
-l2o.data = data_class.data
-l2o.target = data_class.target
+l2o = LeaveTwoDiffOut(model=ColorsModel(model=LogisticRegression()),
+                      data=data_class.data,
+                      target=data_class.target)
 l2o.split()
 l2o.pie()
 l2o.description()
@@ -46,10 +46,9 @@ print("Nombre de splits :",
 print("Nombre total de modeles differents :",
       len(df))
 
-
-# 01 12 2022
-# 10 : 48
-# ajout du notebook
+# 05 12 2022
+# 12 31
+# mises a jours classes colorsdata et leavetwodiffout sur python et word
 
 
 
