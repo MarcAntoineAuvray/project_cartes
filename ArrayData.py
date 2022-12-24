@@ -1,28 +1,20 @@
-from PIL import Image
-import os
-import numpy as np
-import pickle
-import json
-import statistics as stat
-from PIL import Image
 from numpy import asarray
+import os
+from PIL import Image
 
 class ArrayData:
     def __init__(self,
                  files_path="C:/Users/mauvray/PycharmProjects/cartes/",
                  cat_paths=["images/Anciennes_cartes/","images/Nouvelles_cartes/"],
-                 data_file_name="data.pickle",
-                 cat_names=["old_cards", "new_cards"],
-                 new_sizes=(32,32)):
+                 new_sizes=(32, 32)):
 
         self.files_path = files_path
         self.cat_paths = cat_paths
-        self.data_file_name = data_file_name
-        self.cat_names = cat_names
-        self.data=[]
-        self.new_sizes=new_sizes
+        self.new_sizes = new_sizes
+        self.data = []
+        self.target = []
 
-    def get_data(self):
+    def get_data_and_target(self):
         X = []
         y = []
         for i in [0, 1]:
@@ -31,13 +23,7 @@ class ArrayData:
                 X.append(asarray(Image.open(self.files_path + self.cat_paths[i] + file).resize(size=self.new_sizes)) / 255)
                 y.append(i)
 
-        self.data = X, y
-        return self.data
+        self.data = X
+        self.target = y
+        return self.data, self.target
 
-
-if __name__ == "__main__":
-    arr_=ArrayData(cat_paths=["images/Anciennes_cartes/Keras_photos/","images/Nouvelles_cartes/Keras_photos/"])
-    from CNNModel import CNNModel
-    cnn_=CNNModel()
-    arr_.get_data()
-    cnn_.fit(arr_.data)

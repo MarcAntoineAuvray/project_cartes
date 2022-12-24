@@ -1,54 +1,17 @@
-from ColorsModel import ColorsModel
-from ColorsData import ColorsData
-from CNNModel import CNNModel
 from ArrayData import ArrayData
-from Keras import *
-from LeaveTwoDiffOut import LeaveTwoDiffOut
+from CNNModel import CNNModel
 
-import lazypredict
-import numpy as np
-from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LogisticRegression
-from lazypredict.Supervised import LazyClassifier
-import pandas as pd
+# troisieme modele 27 puis 297 images :
+# modele : CNN
+# donnees : total des info des images (reduites a 32x32) + donnees creees par la data augmentation
+arr_ = ArrayData(cat_paths=["images/Anciennes_cartes/Keras_photos/",
+                            "images/Nouvelles_cartes/Keras_photos/"])
+arr_.get_data_and_target()
+cnn_ = CNNModel(data=arr_.data, target=arr_.target)
+cnn_.fit(do_split=True, n_test=30, verbose=True, new_cat_names=["old", "new"])
 
-# premier modele avec 27 images :
-#  modele : regression logistique
-#  donnee des images : moyennes
-#  methode pour valider : enlever une image de chacune des 2 cat pour trainer sur le reste, tester sur les 2
-data_class = ColorsData()
-data_class.get_data_and_target()
+# passage du main.py vers un main_notebook.ipynb
 
-l2o = LeaveTwoDiffOut(model=ColorsModel(model=LogisticRegression()),
-                      data=data_class.data,
-                      target=data_class.target)
-l2o.split()
-l2o.pie()
-l2o.description()
-
-# deuxieme modele avec 27 images :
-# modele.s : plusieurs modeles fournis par le package lazymodel
-# donnee.s des images : moyenne, mediane
-# methode pour valider : indicateurs fournis par le package
-clf = LazyClassifier(verbose=0, ignore_warnings=True, custom_metric = None)
-
-list_models = []
-for i in range(len(l2o.splits)):
-    X_train, X_test, y_train, y_test, y_test_pred = l2o.splits[0].values()
-    models, predictions = clf.fit(np.array(X_train), np.array(X_test), np.array(y_train), np.array(y_test))
-    list_models.append(models)
-
-df = pd.concat(list_models)
-print("Nombre de types modeles differents:",
-      len(df)/(i+1))
-print("Nombre de splits :",
-      i+1)
-print("Nombre total de modeles differents :",
-      len(df))
-
-# 05 12 2022
-# 12 31
-# mises a jours classes colorsdata et leavetwodiffout sur python et word
-
-
-
+# 24 12 2022
+# 18 47
+# finito

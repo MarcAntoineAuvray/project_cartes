@@ -1,8 +1,8 @@
+import numpy as np
+import statistics as stat
 from PIL import Image
 import os
-import numpy as np
 import pickle
-import statistics as stat
 
 class ColorsData:
     def __init__(self,
@@ -20,7 +20,7 @@ class ColorsData:
 
     def get_one_data(self, image_file, path):
         img = Image.open(path + image_file)
-        img.convert('RGB')
+        img.convert("RGB")
         list_lists = []
         for w in range(img.size[0]):
             for h in range(img.size[1]):
@@ -69,13 +69,3 @@ class ColorsData:
             self.target = y
             return self.data, self.target
 
-if __name__ == "__main__":
-    data_ = ColorsData()
-    # for i in [0, 1]:
-    #     for file in [file_ for file_ in os.listdir(data_.cat_paths[i]) if file_[-4:] != ".png"]:
-    #         data_.add_image(file, data_.cat_paths[i])
-    print(data_.get_data_and_target())
-
-    # c__ = ColorsData(cat_paths=["images/Anciennes_cartes/Keras_photos/",
-    #                             "images/Nouvelles_cartes/Keras_photos/"]).get_data(update_data=True,
-    #                                                                                updated_data_file_name="new_data.pickle")

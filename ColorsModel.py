@@ -1,6 +1,5 @@
 import numpy as np
 import pandas as pd
-from sklearn.linear_model import LogisticRegression
 
 class ColorsModel:
 
@@ -40,12 +39,3 @@ class ColorsModel:
         else:
             return y_pred
 
-
-
-if __name__ == "__main__":
-    ex_colors_model = ColorsModel(model=LogisticRegression())
-
-    # for df_ in ex_colors_model.test_model(): print(df_["comparaison"].value_counts())
-
-#cnn réseau de neuronnes convolutionnel
-#pour augmenter le nb de données pour pouvoir faire le cnn on doit faire de la data augmentation (adversial network) GAN
