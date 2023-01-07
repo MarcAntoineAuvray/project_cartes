@@ -12,6 +12,7 @@ cnn_.fit(do_split=True, n_test=30, verbose=True, new_cat_names=["old", "new"])
 
 # passage du main.py vers un main_notebook.ipynb
 
-# 24 12 2022
-# 18 47
-# finito
+# 07 01 2023
+# 14 21
+# contenu du word legerement ameliore
+# finito v2
